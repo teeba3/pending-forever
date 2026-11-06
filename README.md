@@ -1,19 +1,28 @@
 # Pending Forever (معلّق للأبد)
 
-A deliberately broken website that recreates real UX failures common on government portals.
-Each scenario ships with the bug **and** its fix — flip "Show fixed version" in the header to compare.
+**UR-Portal Hell Edition** — a Next.js + React + Tailwind parody of a frustrating government portal.
+It reproduces real UX failures; each one can be switched to its *fixed* version from the in-app **Bug Detector**.
 
 ## Run
-No build step. `python3 -m http.server` then open http://localhost:8000 (ES modules need http, not file://).
+```
+npm install
+npm run dev      # http://localhost:3000
+```
+Production build is a static export (`npm run build` → `out/`), deployed to GitHub Pages by `.github/workflows/pages.yml`.
 
-## Scenarios
-Password reset ignored · OTP expires before arrival · Account active before verification · Back logs you out ·
-Form wipes on one error · Endless loading / no confirmation · Governorate switches · Password rejected silently
+## The bugs
+State wipe on one error · Back-button logout · Eternal loader · Governorate teleport (every 15s) ·
+OTP time machine · Ghost account activation · Silent password rules · Contradictory Arabic marquee banner.
+Plus a sarcastic HelpBot that taunts you.
 
 ## Structure
-- `js/core/` — registry, helpers, shared state
-- `js/scenarios/` — one file per scenario
-- `docs/ADDING_A_SCENARIO.md` — how to add more
+- `src/bugs/registry.js` — list of all bugs (add new ones here)
+- `src/bugs/BugsContext.jsx` — on/off switches, trigger log, toast
+- `src/lib/PortalContext.jsx` — session, step, form state (localStorage), back/teleport logic
+- `src/components/steps/` — one file per form step
+- `src/components/` — banner, HelpBot, Bug Detector, shell
 
-## Deploy
-GitHub Pages: Settings → Pages → deploy from `main` / root.
+## Adding a bug
+1. Add an entry to `src/bugs/registry.js`.
+2. Gate the behaviour with `isOn('your-id')` (buggy) / else (fixed).
+3. Call `trigger('your-id', 'what happened')` so the Bug Detector shows it.
