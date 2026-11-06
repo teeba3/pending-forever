@@ -6,9 +6,9 @@ import { GOVERNORATES } from '@/bugs/registry';
 import { Field, inputCls, btnCls } from '../ui';
 
 export default function StepDetails() {
-  const { wiz, setForm, setStep, wipe } = useApp();
+  const { wiz, setForm, setStep, wipe, fieldErr: err, setFieldErr: setErr } = useApp();
   const { isOn, trigger } = useBugs();
-  const f = wiz.form; const [err, setErr] = useState({});
+  const f = wiz.form;
   const bug = isOn('upload');
 
   const onFile = (e) => {
@@ -22,10 +22,10 @@ export default function StepDetails() {
   };
   const next = () => {
     const e = {};
-    if (!f.gov) e.gov = 'اختر المحافظة';
-    if (f.address.trim().length < 5) e.address = 'أدخل العنوان الكامل';
-    if (!f.doc) e.doc = 'أرفق المستمسك';
-    if (!Object.keys(e).length) return setStep(2);
+    if (!f.gov) e.gov = 'محافظة غير مختارة';
+    if (f.address.trim().length < 5) e.address = 'عنوان غير صالح — أدخل العنوان الكامل';
+    if (!f.doc) e.doc = 'مستمسك غير مرفق';
+    if (!Object.keys(e).length) { setErr({}); return setStep(2); }
     if (isOn('state-wipe')) return wipe('تم مسح النموذج. الخطأ: ' + Object.values(e).join(' • '));
     setErr(e);
   };

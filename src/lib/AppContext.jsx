@@ -23,6 +23,7 @@ export function AppProvider({ children }) {
   const [notice, setNotice] = useState(null);
   const [sessionEnd, setSessionEnd] = useState(0);
   const [warn, setWarn] = useState(false);
+  const [fieldErr, setFieldErr] = useState({});   // per-field messages that survive a wipe
 
   const t = (k) => (lang === 'en' && EN[k]) || AR[k] || k;
 
@@ -43,7 +44,8 @@ export function AppProvider({ children }) {
   const setStep = (step) => setWiz((w) => w && { ...w, step });
   const setForm = (patch) => setWiz((w) => w && { ...w, form: { ...w.form, ...patch } });
 
-  const wipe = useCallback((msg = 'بيانات غير صحيحة') => {
+  const wipe = useCallback((msg = 'بيانات غير صحيحة', errs = {}) => {
+    setFieldErr(errs);
     setWiz((w) => w && { ...w, step: 0, form: EMPTY_FORM });
     setNotice(msg);
     trigger('state-wipe', 'All fields erased after one error');
@@ -112,7 +114,7 @@ export function AppProvider({ children }) {
   }, [back]);
 
   return (
-    <Ctx.Provider value={{ ready, t, lang, setLang, user, login, logout, view, go, wiz, setStep, setForm, wipe, startWizard, openService, pending, submissions, setSubmissions, notice, setNotice, warn, extend, expireNow, back, setWiz }}>
+    <Ctx.Provider value={{ ready, t, lang, setLang, user, login, logout, view, go, wiz, setStep, setForm, wipe, startWizard, openService, pending, submissions, setSubmissions, notice, setNotice, warn, extend, expireNow, back, setWiz, fieldErr, setFieldErr }}>
       {children}
     </Ctx.Provider>
   );

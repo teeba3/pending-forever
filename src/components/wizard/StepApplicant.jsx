@@ -8,9 +8,9 @@ import { Field, inputCls, btnCls } from '../ui';
 const MONTHS = ['كانون الثاني','شباط','آذار','نيسان','أيار','حزيران','تموز','آب','أيلول','تشرين الأول','تشرين الثاني','كانون الأول'];
 
 export default function StepApplicant() {
-  const { wiz, setForm, setStep, wipe } = useApp();
+  const { wiz, setForm, setStep, wipe, fieldErr: err, setFieldErr: setErr } = useApp();
   const { isOn, trigger } = useBugs();
-  const f = wiz.form; const [err, setErr] = useState({});
+  const f = wiz.form;
   const bad1900 = isOn('date-1900');
   const thisYear = new Date().getFullYear();
   const years = bad1900 ? Array.from({ length: thisYear - 1899 }, (_, i) => 1900 + i) : Array.from({ length: 100 }, (_, i) => thisYear - i);
@@ -19,16 +19,16 @@ export default function StepApplicant() {
     const nid = isOn('arabic-digits') ? f.nid : toLatin(f.nid);
     const phone = isOn('arabic-digits') ? f.phone : toLatin(f.phone);
     const e = {};
-    if (f.name.trim().split(/\s+/).length < 4 || /[a-z]/i.test(f.name)) e.name = 'الاسم يجب أن يكون رباعياً وبالعربية';
-    if (!/^\d{12}$/.test(nid)) e.nid = hasArabicDigits(f.nid) ? 'الأرقام يجب أن تكون بالإنكليزية' : 'الرقم الوطني يجب أن يتكون من 12 رقماً';
-    if (!f.d || !f.m || !f.y) e.birth = 'أدخل تاريخ الميلاد';
-    if (!/^07\d{9}$/.test(phone)) e.phone = 'رقم الهاتف يجب أن يبدأ بـ 07 ويتكون من 11 رقماً';
+    if (f.name.trim().split(/\s+/).length < 4 || /[a-z]/i.test(f.name)) e.name = 'اسم غير صالح — اكتب الاسم الرباعي بالعربية';
+    if (!/^\d{12}$/.test(nid)) e.nid = hasArabicDigits(f.nid) ? 'رقم وطني غير صالح — الأرقام يجب أن تكون بالإنكليزية' : 'رقم وطني غير صالح — يتكون من 12 رقماً';
+    if (!f.d || !f.m || !f.y) e.birth = 'تاريخ ميلاد غير صالح';
+    if (!/^07\d{9}$/.test(phone)) e.phone = 'رقم هاتف غير صالح — يبدأ بـ 07 ويتكون من 11 رقماً';
     if (!/.+@.+\..+/.test(f.email)) e.email = 'بريد إلكتروني غير صالح';
-    if (!Object.keys(e).length) { setForm({ nid, phone }); return setStep(1); }
-    if (isOn('state-wipe')) return wipe('تم مسح النموذج. الخطأ: ' + Object.values(e).join(' • '));
+    if (!Object.keys(e).length) { setErr({}); setForm({ nid, phone }); return setStep(1); }
+    if (isOn('state-wipe')) return wipe('تم مسح النموذج. الأخطاء مبيّنة تحت كل حقل.', e);
     setErr(e);
   };
-  const inp = (k) => ({ className: inputCls, value: f[k], onChange: (e) => setForm({ [k]: e.target.value }) });
+  const inp = (k) => ({ className: inputCls, value: f[k], onChange: (e) => { setForm({ [k]: e.target.value }); if (err[k]) setErr({ ...err, [k]: '' }); } });
   return (
     <div>
       <Field label="الاسم الرباعي (بالعربية)" error={err.name}><input {...inp('name')} /></Field>
