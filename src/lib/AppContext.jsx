@@ -10,7 +10,7 @@ export const useApp = () => useContext(Ctx);
 
 export const EMPTY_FORM = { name: '', nid: '', d: '', m: '', y: '', phone: '', email: '', gov: '', address: '', doc: '' };
 export const SESSION_MS = 5 * 60 * 1000;
-const KEY = 'pf-state';
+const KEY = 'pf2-state';
 
 export function AppProvider({ children }) {
   const { isOn, trigger } = useBugs();
@@ -29,7 +29,7 @@ export function AppProvider({ children }) {
 
   // ---- persistence: only in "fixed" mode. In bug mode a refresh loses everything. ----
   useEffect(() => {
-    try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s) { setUser(s.user); setView(s.view); setWiz(s.wiz); setSubmissions(s.submissions || []); setSessionEnd(s.sessionEnd || 0); } } catch {}
+    try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s && s.view && s.view.name) { setUser(s.user); setView(s.view); setWiz(s.wiz); setSubmissions(s.submissions || []); setSessionEnd(s.sessionEnd || 0); } } catch { try { localStorage.removeItem(KEY); } catch {} }
     setReady(true);
   }, []);
   useEffect(() => {

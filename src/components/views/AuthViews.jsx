@@ -24,7 +24,7 @@ export function LoginView() {
     <form onSubmit={submit} className="bg-white border border-slate-300 p-6 max-w-md mx-auto">
       <h2 className="text-xl font-bold text-green-900 mb-4">تسجيل الدخول</h2>
       {view.msg && <p className="bg-yellow-50 border border-yellow-500 p-2 text-sm mb-3">{view.msg}</p>}
-      {err.all && <p className="bg-red-50 border border-red-500 text-red-700 p-2 text-sm mb-3">{err.all}</p>}
+      {err.all && <p className="bg-red-50 border border-red-500 text-red-700 p-2 text-sm mb-3">{err.all}<br /><span className="text-xs text-red-400" dir="ltr">Error 0x80070057 — Reference: unknown</span></p>}
       <Field label="اسم المستخدم / الرقم الوطني" error={err.u}><input className={inputCls} value={u} onChange={(e) => setU(e.target.value)} /></Field>
       <Field label="كلمة المرور" error={err.p}><input type="password" className={inputCls} value={p} onChange={(e) => setP(e.target.value)} /></Field>
       <button className={btnCls}>دخول</button>

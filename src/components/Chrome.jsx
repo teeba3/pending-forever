@@ -29,7 +29,7 @@ export function TopStrip() {
   const { t, lang, setLang } = useApp();
   return (
     <div className="bg-green-900 text-green-50 text-xs px-4 py-1 flex justify-between items-center">
-      <span>{new Date().toLocaleDateString('ar-IQ')}</span>
+      <span suppressHydrationWarning>{new Date().toLocaleDateString('ar-IQ')}</span>
       <span className="flex gap-3">
         <button onClick={() => {}}>A+</button><button onClick={() => {}}>A-</button>
         <button onClick={() => {}}>خريطة الموقع</button>
@@ -118,9 +118,11 @@ export function Header() {
 }
 
 export function Footer() {
+  const [n, setN] = useState('0000----');
+  useEffect(() => setN('0000' + Math.floor(Math.random() * 9000 + 1000)), []);
   return (
     <footer className="bg-slate-800 text-slate-300 text-xs mt-10 px-4 py-6 text-center">
-      <p>عدد زوار الموقع: 0000{Math.floor(Math.random() * 9000 + 1000)}</p>
+      <p>عدد زوار الموقع: {n}</p>
       <p className="mt-2"><a href="#" onClick={(e) => e.preventDefault()}>سياسة الخصوصية</a> · <a href="#" onClick={(e) => e.preventDefault()}>شروط الاستخدام</a> · <a href="#" onClick={(e) => e.preventDefault()}>اتصل بنا</a></p>
       <p className="mt-2">© 2014 جميع الحقوق محفوظة — يعمل بشكل أفضل على Internet Explorer 8 بدقة 1024×768</p>
     </footer>
