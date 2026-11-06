@@ -1,28 +1,32 @@
 # Pending Forever (معلّق للأبد)
 
-**UR-Portal Hell Edition** — a Next.js + React + Tailwind parody of a frustrating government portal.
-It reproduces real UX failures; each one can be switched to its *fixed* version from the in-app **Bug Detector**.
+A realistic-looking Iraqi e-government services portal (think "Ur") packed with the UX problems citizens actually hit.
+Arabic-first (RTL), Next.js + React + Tailwind, static export on GitHub Pages.
+
+Every problem is a switch: open the small **🛠 Bugs** button (top-right) to flip any of them to the fixed behaviour,
+see what triggered, or force the session to expire.
 
 ## Run
 ```
 npm install
-npm run dev      # http://localhost:3000
+npm run dev     # http://localhost:3000
 ```
-Production build is a static export (`npm run build` → `out/`), deployed to GitHub Pages by `.github/workflows/pages.yml`.
 
-## The bugs
-State wipe on one error · Back-button logout · Eternal loader · Governorate teleport (every 15s) ·
-OTP time machine · Ghost account activation · Silent password rules · Contradictory Arabic marquee banner.
-Plus a sarcastic HelpBot that taunts you.
+## What's in it
+24 services on one grid (you can't tell which ones work): real 5-step application wizard, "under maintenance",
+"visit the office", external ministry site that needs a new account, and Sun–Thu 8–2 only services.
+Problems include: desktop hamburger menu, 5-minute session, Back/refresh destroys progress, one mistake = empty form,
+CAPTCHA from hell, OTP late/wrong number, Arabic digits rejected, date picker from 1900, cryptic upload rules,
+"Invalid user name or password", secret password rules, "activated" before email, login forgets your service,
+language switch resets everything, no reference number, tracker stuck on "قيد المعالجة", governorate teleport,
+popups (cookie/survey/dead chat), contradictory marquee.
 
 ## Structure
-- `src/bugs/registry.js` — list of all bugs (add new ones here)
-- `src/bugs/BugsContext.jsx` — on/off switches, trigger log, toast
-- `src/lib/PortalContext.jsx` — session, step, form state (localStorage), back/teleport logic
-- `src/components/steps/` — one file per form step
-- `src/components/` — banner, HelpBot, Bug Detector, shell
+- `src/bugs/registry.js` — list of problems (add new ones here)
+- `src/bugs/BugsContext.jsx` — switches + trigger log
+- `src/lib/AppContext.jsx` — session, Back handling, persistence, navigation
+- `src/data/services.js` — the services list (add a service = one line)
+- `src/components/views/`, `src/components/wizard/` — screens and wizard steps
 
-## Adding a bug
-1. Add an entry to `src/bugs/registry.js`.
-2. Gate the behaviour with `isOn('your-id')` (buggy) / else (fixed).
-3. Call `trigger('your-id', 'what happened')` so the Bug Detector shows it.
+## Adding a problem
+1. Add to `src/bugs/registry.js`. 2. Branch on `isOn('id')` (buggy) / else (fixed). 3. Call `trigger('id', 'detail')`.
