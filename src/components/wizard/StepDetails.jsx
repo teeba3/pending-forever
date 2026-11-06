@@ -26,7 +26,7 @@ export default function StepDetails() {
     if (f.address.trim().length < 5) e.address = 'أدخل العنوان الكامل';
     if (!f.doc) e.doc = 'أرفق المستمسك';
     if (!Object.keys(e).length) return setStep(2);
-    if (isOn('state-wipe')) return wipe('حدث خطأ. يرجى إعادة المحاولة');
+    if (isOn('state-wipe')) return wipe('تم مسح النموذج. الخطأ: ' + Object.values(e).join(' • '));
     setErr(e);
   };
   return (

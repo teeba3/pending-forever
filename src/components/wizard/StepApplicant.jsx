@@ -25,7 +25,7 @@ export default function StepApplicant() {
     if (!/^07\d{9}$/.test(phone)) e.phone = 'رقم الهاتف يجب أن يبدأ بـ 07 ويتكون من 11 رقماً';
     if (!/.+@.+\..+/.test(f.email)) e.email = 'بريد إلكتروني غير صالح';
     if (!Object.keys(e).length) { setForm({ nid, phone }); return setStep(1); }
-    if (isOn('state-wipe')) return wipe('بيانات غير صحيحة');
+    if (isOn('state-wipe')) return wipe('تم مسح النموذج. الخطأ: ' + Object.values(e).join(' • '));
     setErr(e);
   };
   const inp = (k) => ({ className: inputCls, value: f[k], onChange: (e) => setForm({ [k]: e.target.value }) });
