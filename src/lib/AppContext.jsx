@@ -1,7 +1,6 @@
 'use client';
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useBugs } from '@/bugs/BugsContext';
-import { GOVERNORATES } from '@/bugs/registry';
 import { byId, isOpenNow } from '@/data/services';
 import { AR, EN } from './i18n';
 
@@ -111,21 +110,6 @@ export function AppProvider({ children }) {
     addEventListener('popstate', onPop);
     return () => removeEventListener('popstate', onPop);
   }, [back]);
-
-  // ---- Governorate teleport ----
-  const gov = wiz?.form.gov;
-  useEffect(() => {
-    if (view.name !== 'wizard' || !gov || !isOn('teleport')) return;
-    const id = setInterval(() => {
-      setWiz((w) => {
-        if (!w?.form.gov) return w;
-        const pick = GOVERNORATES.filter((g) => g !== w.form.gov)[Math.floor(Math.random() * (GOVERNORATES.length - 1))];
-        trigger('teleport', `${w.form.gov} → ${pick}`);
-        return { ...w, form: { ...w.form, gov: pick } };
-      });
-    }, 15000);
-    return () => clearInterval(id);
-  }, [view.name, gov, isOn, trigger]);
 
   return (
     <Ctx.Provider value={{ ready, t, lang, setLang, user, login, logout, view, go, wiz, setStep, setForm, wipe, startWizard, openService, pending, submissions, setSubmissions, notice, setNotice, warn, extend, expireNow, back, setWiz }}>

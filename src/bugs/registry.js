@@ -20,7 +20,6 @@ export const BUGS = [
   { id: 'no-confirmation',title: 'Submit: no reference number', fix: 'Reference number + receipt' },
   { id: 'status-stuck',   title: 'Tracker stuck on "under processing"', fix: 'Real status steps' },
   { id: 'office-hours',   title: 'Online service closed after 2 PM', fix: 'Available 24/7' },
-  { id: 'teleport',       title: 'Governorate silently changes', fix: 'Selection is stable' },
   { id: 'popups',         title: 'Cookie bar + survey + dead chat', fix: 'No interruptions' },
   { id: 'warnings',       title: 'Funny official warnings',     fix: 'Hidden' },
   { id: 'chaos-banner',   title: 'Contradictory marquee banner', fix: 'Hidden' },
