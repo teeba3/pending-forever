@@ -13,5 +13,6 @@ export const EVENTS = {
   otp: 'The old code is better. Trust me.',
   ghost: 'Activated! Do not ask how.',
   password: 'The password rules are secret. For your safety.',
+  login: 'Is it the username? The password? Who knows!',
   submit: 'Processing… Please stand by. Indefinitely.',
 };

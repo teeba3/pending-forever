@@ -9,6 +9,7 @@ export const BUGS = [
   { id: 'otp-time',     title: 'OTP Time Machine',       fix: 'Fresh code, working timer' },
   { id: 'ghost-active', title: 'Ghost Activation',       fix: 'Pending until email verified' },
   { id: 'silent-pass',  title: 'Silent Password Paradox', fix: 'Explain the rules' },
+  { id: 'generic-login', title: 'Generic Login Error',   fix: 'Say which field is wrong' },
   { id: 'chaos-banner', title: 'Chaos Banner',           fix: 'Hide the contradictory notice' },
 ];
 
