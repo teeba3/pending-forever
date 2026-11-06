@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { WARNINGS } from '@/data/warnings';
 import { useApp } from '@/lib/AppContext';
 import { useBugs } from '@/bugs/BugsContext';
 import { SERVICES, byId } from '@/data/services';
@@ -83,7 +84,7 @@ export function Header() {
           : null}
         <button onClick={() => go('home')} className="flex items-center gap-3 text-right">
           <Crest />
-          <span><b className="block text-xl text-green-900">{t('siteName')}</b><span className="text-xs text-slate-600">{t('portal')}</span></span>
+          <span><b className="block text-xl text-green-900">{t('siteName')} <span className="align-middle text-[10px] bg-red-700 text-white px-1.5 py-0.5 tracking-widest">HELL EDITION</span></b><span className="block text-sm font-bold text-yellow-700">Ministry of Everything · وزارة كل شيء</span><span className="text-xs text-slate-600">{t('portal')}</span></span>
         </button>
         <span className="flex-1" />
         {user ? (
@@ -123,5 +124,17 @@ export function Footer() {
       <p className="mt-2"><a href="#" onClick={(e) => e.preventDefault()}>سياسة الخصوصية</a> · <a href="#" onClick={(e) => e.preventDefault()}>شروط الاستخدام</a> · <a href="#" onClick={(e) => e.preventDefault()}>اتصل بنا</a></p>
       <p className="mt-2">© 2014 جميع الحقوق محفوظة — يعمل بشكل أفضل على Internet Explorer 8 بدقة 1024×768</p>
     </footer>
+  );
+}
+
+export function WarningBar() {
+  const { isOn } = useBugs();
+  const [i, setI] = useState(0);
+  useEffect(() => { const id = setInterval(() => setI((n) => n + 1), 6000); return () => clearInterval(id); }, []);
+  if (!isOn('warnings')) return null;
+  return (
+    <div className="bg-yellow-100 border-y border-yellow-600 text-yellow-900 text-sm px-4 py-1 text-center">
+      ⚠️ {WARNINGS[i % WARNINGS.length]}
+    </div>
   );
 }
