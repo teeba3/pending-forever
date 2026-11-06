@@ -20,7 +20,7 @@ export default function StepApplicant() {
     const phone = isOn('arabic-digits') ? f.phone : toLatin(f.phone);
     const e = {};
     if (f.name.trim().split(/\s+/).length < 4 || /[a-z]/i.test(f.name)) e.name = 'اسم غير صالح — اكتب الاسم الرباعي بالعربية';
-    if (!/^\d{12}$/.test(nid)) e.nid = hasArabicDigits(f.nid) ? 'رقم وطني غير صالح — الأرقام يجب أن تكون بالإنكليزية' : 'رقم وطني غير صالح — يتكون من 12 رقماً';
+    if (!/^\d{6}$/.test(nid)) e.nid = hasArabicDigits(f.nid) ? 'رقم وطني غير صالح — الأرقام يجب أن تكون بالإنكليزية' : 'رقم وطني غير صالح — يتكون من 6 أرقام';
     if (!f.d || !f.m || !f.y) e.birth = 'تاريخ ميلاد غير صالح';
     if (!/^07\d{9}$/.test(phone)) e.phone = 'رقم هاتف غير صالح — يبدأ بـ 07 ويتكون من 11 رقماً';
     if (!/.+@.+\..+/.test(f.email)) e.email = 'بريد إلكتروني غير صالح';
