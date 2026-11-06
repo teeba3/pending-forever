@@ -14,8 +14,8 @@ export default function StepDetails() {
   const onFile = (e) => {
     const file = e.target.files?.[0]; if (!file) return;
     const e2 = {};
-    if (file.type !== 'application/pdf') e2.doc = bug ? 'الملف غير صالح' : 'يجب أن يكون الملف بصيغة PDF';
-    else if (file.size > 500 * 1024) e2.doc = bug ? 'الملف غير صالح' : 'حجم الملف يجب ألا يتجاوز 500 كيلوبايت';
+    if (!['application/pdf', 'image/png', 'image/jpeg'].includes(file.type)) e2.doc = bug ? 'الملف غير صالح' : 'الصيغ المسموحة: PNG أو JPG أو PDF';
+    else if (file.size > 800 * 1024) e2.doc = bug ? 'الملف غير صالح' : 'حجم الملف يجب ألا يتجاوز 800 كيلوبايت';
     else if (bug && /[؀-ۿ]/.test(file.name)) e2.doc = 'الملف غير صالح';
     if (e2.doc) { setErr(e2); setForm({ doc: '' }); if (bug) trigger('upload', 'Rejected without saying why'); return; }
     setErr({}); setForm({ doc: file.name });
@@ -35,8 +35,8 @@ export default function StepDetails() {
         <select className={inputCls} value={f.gov} onChange={(e) => setForm({ gov: e.target.value })}><option value="">-- اختر --</option>{GOVERNORATES.map((g) => <option key={g}>{g}</option>)}</select>
       </Field>
       <Field label="العنوان الكامل" error={err.address}><input className={inputCls} value={f.address} onChange={(e) => setForm({ address: e.target.value })} /></Field>
-      <Field label="المستمسك (صورة الهوية)" error={err.doc} hint={bug ? '' : 'PDF فقط، أقل من 500 كيلوبايت'}>
-        <input type="file" className={inputCls} onChange={onFile} />{f.doc && <span className="text-xs text-green-700">تم رفع: {f.doc}</span>}
+      <Field label="المستمسك (صورة الهوية)" error={err.doc} hint={bug ? '' : 'PNG أو JPG أو PDF، أقل من 800 كيلوبايت'}>
+        <input type="file" accept=".png,.jpg,.jpeg,.pdf" className={inputCls} onChange={onFile} />{f.doc && <span className="text-xs text-green-700">تم رفع: {f.doc}</span>}
       </Field>
       <button className={btnCls} onClick={next}>التالي</button>
     </div>
