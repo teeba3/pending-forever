@@ -18,7 +18,7 @@ npm run dev     # http://localhost:3000
 Problems include: desktop hamburger menu, 5-minute session, Back/refresh destroys progress, one mistake = empty form,
 CAPTCHA from hell, OTP late/wrong number, Arabic digits rejected, date picker from 1900, cryptic upload rules,
 "Invalid user name or password", secret password rules, "activated" before email, login forgets your service,
-language switch resets everything, no reference number, tracker stuck on "قيد المعالجة", governorate teleport,
+language switch resets everything, no reference number, tracker stuck on "قيد المعالجة",
 popups (cookie/survey/dead chat), contradictory marquee.
 
 ## Structure
